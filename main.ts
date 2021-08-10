@@ -90,7 +90,15 @@ export default class OAM extends Plugin {
 			aliases = [nameWithoutIndex]
 		}
 
-		const newContent = mdify.stringify({ aliases }, parsedFile.markdown)
+		// This sucks, but the Markdown parser that I'm using seems
+		// to append new lines after the metadata, and doesn't clean
+		// up any extras. Essentially, we're reclearing the space between
+		// metadata and note content repeatedly, knowing that mdify will
+		// re-add a new line on each operation
+		const newLineRegex = new RegExp(/^\n+/g)
+		const sanitizedContent = parsedFile.markdown.replace(newLineRegex, '\n')
+		const newContent = mdify.stringify({ aliases }, sanitizedContent)
+
 		await app.vault.modify(file, newContent)
 	}
 }
