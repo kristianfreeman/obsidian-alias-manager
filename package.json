@@ -19,5 +19,9 @@
     "rollup": "^2.32.1",
     "tslib": "^2.2.0",
     "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "front-matter": "^4.0.2",
+    "mdify": "^1.1.1"
   }
 }
